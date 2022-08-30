@@ -1,10 +1,6 @@
-import { createAction, createReducer } from '@reduxjs/toolkit';
-
-export const addContactRedux = createAction('contacts/newContact');
-export const deleteContactRedux = createAction('contacts/deleteContact');
+import { createReducer } from '@reduxjs/toolkit';
+import { getContacts } from './contactsOperations';
 
 export const items = createReducer([], {
-  [addContactRedux]: (state, action) => [...state, action.payload],
-  [deleteContactRedux]: (state, action) =>
-    state.filter(contact => contact.id !== action.payload),
+  [getContacts.fulfilled]: (_, action) => action.payload,
 });

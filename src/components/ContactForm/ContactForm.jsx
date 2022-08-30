@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Wrapper, Label, Button } from './ContactForm.css';
-import { addContactRedux } from 'redux/contactReducer';
 import { nanoid } from 'nanoid';
 import { useDispatch, useSelector } from 'react-redux';
+import { addContactToBackEnd } from 'redux/contactsOperations';
 
 const ContactForm = () => {
   const [name, setName] = useState('');
@@ -38,18 +38,19 @@ const ContactForm = () => {
       number,
     };
 
-    isSameContact(name, number)
-      ? alert('This contact is already exists')
-      : dispatch(addContactRedux(newContact));
+    dispatch(addContactToBackEnd(newContact));
   }
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    addContact(name, number);
-
-    setName('');
-    setNumber('');
+    if (isSameContact(name, number)) {
+      return alert('This contact is already exists');
+    } else {
+      addContact(name, number);
+      setName('');
+      setNumber('');
+    }
   }
 
   return (
